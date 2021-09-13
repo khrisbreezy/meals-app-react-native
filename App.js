@@ -3,8 +3,14 @@ import React, {useState} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import * as Font from 'expo-font';
 import AppLoading from 'expo-app-loading';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+
+
+import { NavigationContainer } from '@react-navigation/native';
 
 import MealNavigator from './navigation/mealNavigator';
+import CategoriesScreen from './screens/CategoriesScreen';
 
 const fecthFonts = () => {
   return Font.loadAsync({
@@ -12,6 +18,8 @@ const fecthFonts = () => {
     'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf'),
   });
 };
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [dataLoading, setDataLoading] = useState(false);
@@ -21,7 +29,11 @@ export default function App() {
   }
 
   return (
-    <MealNavigator />
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Category Screen" component={CategoriesScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
