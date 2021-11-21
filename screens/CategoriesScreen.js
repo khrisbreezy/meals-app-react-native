@@ -1,18 +1,20 @@
 import React from 'react';
 import { View, StyleSheet, FlatList, Button, Text, TouchableOpacity } from 'react-native';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+
 
 import { CATEGORIES } from '../data/dummy-data';
-
+import CategoryGridTile from '../components/CategoryGridTile';
+import HeaderButton from '../components/HeaderButton';
 
 const CategoriesScreen = (props) => {
 
   const renderItem = (itemData) => {
     return (
-      <TouchableOpacity style={styles.gridItem} onPress={() => gotoMealPage(itemData)}>
-        <View>
-          <Text>{itemData.item.title}</Text>
-        </View>
-      </TouchableOpacity>
+      <CategoryGridTile
+      title={itemData.item.title}
+      onSelect={() => gotoMealPage(itemData)}
+      color={itemData.item.color} />
     )
   }
 
@@ -25,8 +27,15 @@ const CategoriesScreen = (props) => {
     )
 }
 
-CategoriesScreen.navigationOptions = {
-  headerTitle: "Meal Categories"
+CategoriesScreen.navigationOptions = (navData) => {
+  return {
+    headerTitle: "Meal Categories",
+    headerLeft: () => {
+      return (<HeaderButtons HeaderButtonComponent={HeaderButton}>
+          <Item title="Favourite" iconName="ios-menu" onPress={() => navData.navigation.toggleDrawer()} />
+      </HeaderButtons>)
+    }
+  }
 }
 
 const styles = StyleSheet.create({
@@ -34,11 +43,6 @@ const styles = StyleSheet.create({
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
-    },
-    gridItem: {
-      flex: 1,
-      margin: 15,
-      height: 150
     }
   });
 
