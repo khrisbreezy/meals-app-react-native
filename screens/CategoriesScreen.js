@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, FlatList, Button, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, FlatList } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 

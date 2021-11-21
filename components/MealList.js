@@ -1,17 +1,21 @@
 import React from 'react';
-import { View, StyleSheet, FlatList, Text } from 'react-native';
+import { View, StyleSheet, FlatList } from 'react-native';
+import { useSelector } from 'react-redux';
 
 
 import MealItem from './MealItem';
-import { MEALS } from '../data/dummy-data';
 
 const MealList = ({selectedMeals, navigation}) => {
 
+  const FAVEMEALS = useSelector(state => state.meals.favoriteMeals);
+
     const renderMealItem = itemData => {
+
+      const selectedFaveMealId = FAVEMEALS.some(meal => meal.id === itemData.item.id);
         return (
           <MealItem
           title={itemData.item.title}
-          onSelectMeal={() => onSelectMealHandler(itemData)}
+          onSelectMeal={() => onSelectMealHandler(itemData, selectedFaveMealId)}
           duration={itemData.item.duration}
           complexity={itemData.item.complexity}
           affordability={itemData.item.affordability}
@@ -19,8 +23,12 @@ const MealList = ({selectedMeals, navigation}) => {
         )
     };
 
-    const onSelectMealHandler = (itemData) => {
-        navigation.navigate('MealDetail', {mealId: itemData.item.id});
+    const onSelectMealHandler = (itemData, selectedFaveMealId) => {
+        navigation.navigate('MealDetail', {
+          mealId: itemData.item.id,
+          mealTitle: itemData.item.title,
+          activeFave: selectedFaveMealId
+        });
     };
 
     return (
